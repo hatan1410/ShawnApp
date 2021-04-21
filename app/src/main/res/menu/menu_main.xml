@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Today"
+        android:id="@+id/menu_today"
+        app:showAsAction="always"/>
+
+    <item android:title="New category"
+        android:id="@+id/menu_new_cate"/>
+
+    <item android:title="Chart"
+        android:id="@+id/menu_chart"/>
+
+</menu>
