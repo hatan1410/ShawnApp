@@ -13,13 +13,13 @@ import com.example.shawnapp.Model.Category;
 
 import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> {
+public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapter.MyViewHolder> {
 
     private final EvaluateActivity evaluateActivity;
     private final List<Category> categories;
     public double average;
 
-    public DataAdapter(EvaluateActivity evaluateActivity, List<Category> categories) {
+    public EvaluateDataAdapter(EvaluateActivity evaluateActivity, List<Category> categories) {
         this.evaluateActivity = evaluateActivity;
         this.categories = categories;
     }

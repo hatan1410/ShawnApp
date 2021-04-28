@@ -1,5 +1,6 @@
 package com.example.shawnapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
     private Toolbar toolbar;
-    private GestureDetector gestureDetector;
     private Database database;
     final int SWIPE_THRESHOLD = 100;
     final int SWIPE_VELOCITY_THRESHOLD = 100;
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
         toolbar = findViewById(R.id.toolBar_main);
-        gestureDetector = new GestureDetector(this, new MyGesture());
         database = new Database(MainActivity.this);
     }
 
@@ -64,13 +64,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
-        calendarRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                gestureDetector.onTouchEvent(motionEvent);
-                return true;
-            }
-        });
     }
 
     private ArrayList<Date> daysInMonthArray(LocalDate date)
@@ -140,33 +133,17 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         return super.onCreateOptionsMenu(menu);
     }
 
-    class MyGesture extends GestureDetector.SimpleOnGestureListener{
-        protected MotionEvent mLastOnDownEvent = null;
-        @Override
-        public boolean onDown(MotionEvent e) {
-            mLastOnDownEvent = e;
-            return true;//super.onDown(e);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_new_cate:
+                Intent intent = new Intent(MainActivity.this, NewCateActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_chart:
+                Toast.makeText(this, "Chart", Toast.LENGTH_SHORT).show();
+                break;
         }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1==null){
-                e1 = mLastOnDownEvent;
-            }
-            if (e1==null || e2==null){
-                Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            //Keo tu trai sang phai
-            if(e2.getX() - e1.getX() > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD){
-                selectedDate = selectedDate.minusMonths(1);
-                setMonthView();
-            }//Keo tu phai sang trai
-            if(e1.getX() - e2.getX() > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD){
-                selectedDate = selectedDate.plusMonths(1);
-                setMonthView();
-            }
-            return true;
-        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -61,7 +61,7 @@ public class EvaluateActivity extends AppCompatActivity {
         xuLyToolBar();
 
         //xu ly list categories trong recycle view
-        DataAdapter dataAdapter = new DataAdapter(this, categories);
+        EvaluateDataAdapter dataAdapter = new EvaluateDataAdapter(this, categories);
         recyclerView.setAdapter(dataAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -128,7 +128,7 @@ public class EvaluateActivity extends AppCompatActivity {
     }
 
     private void getCate() {
-        Cursor cursor = database.showNewDate();
+        Cursor cursor = database.showCate();
         if(cursor.getCount() == 0){
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }else {
@@ -136,7 +136,6 @@ public class EvaluateActivity extends AppCompatActivity {
                 categories.add(new Category(cursor.getString(0), 0));
             }
         }
-
     }
 
     private void getDateInDB() {

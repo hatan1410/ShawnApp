@@ -119,7 +119,7 @@ public class Database  extends SQLiteOpenHelper {
         }
         return average;
     }
-    public Cursor showNewDate(){
+    public Cursor showCate(){
         SQLiteDatabase database = this.getReadableDatabase();
         String query = "SELECT " + COLUMN_CATE_NAME + " FROM " + TABLE_CATE + ";";
         Cursor cursor = null;
@@ -163,9 +163,8 @@ public class Database  extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_CATE, cate);
         cv.put(COLUMN_POINT, point);
-        long result = database.update(TABLE_DATE_CATE, cv, COLUMN_DATE +" = "+ date, null);
+        long result = database.update(TABLE_DATE_CATE, cv, COLUMN_DATE +" = '"+ date + "' and " + COLUMN_CATE + " = '" + cate + "'", null);
         if(result == -1){
             Log.d("save_eva_point", "Failed");
         }else {
@@ -178,7 +177,7 @@ public class Database  extends SQLiteOpenHelper {
 
         cv.put(COLUMN_NOTE, notes);
         cv.put(COLUMN_AVERAGE, average);
-        long result = database.update(TABLE_DATE, cv, COLUMN_DATE +" = "+ date, null);
+        long result = database.update(TABLE_DATE, cv, COLUMN_DATE +" = '"+ date + "'", null);
         if(result == -1){
             Log.d("save_ave_note", "Failed");
         }else {
