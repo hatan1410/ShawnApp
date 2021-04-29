@@ -31,11 +31,11 @@ public class EvaluateActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private final ArrayList<Category> categories = new ArrayList<>();
     private String date;
-    public double sum = 0;
-    public TextView tvProgress;
-    public ProgressBar progressBar;
+    private double sum = 0;
+    private TextView tvProgress;
+    private ProgressBar progressBar;
     private Database database;
-    private boolean isSaved = false;
+    private boolean isChanged = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +73,10 @@ public class EvaluateActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isSaved || tvProgress.getText().toString().equals("0%")){
+                if(!isChanged){
                     onBackPressed();
                 }
-                else if(!isSaved) {
+                else  {
                    // DialogBack();
                     final Dialog dialog = new Dialog(EvaluateActivity.this);
                     dialog.setContentView(R.layout.dialog_save);
@@ -87,23 +87,21 @@ public class EvaluateActivity extends AppCompatActivity {
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            isSaved = true;
                             saveData();
-                            Log.d("check", "save");
+                            dialog.dismiss();
                             onBackPressed();
                         }
                     });
                     btnDiscard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.d("check", "Discard");
+                            dialog.dismiss();
                             onBackPressed();
                         }
                     });
                     btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.d("check", "Cancel");
                             dialog.cancel();
                         }
                     });
@@ -122,7 +120,7 @@ public class EvaluateActivity extends AppCompatActivity {
 //Item save tren menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        isSaved = true;
+        isChanged = false;
         saveData();
         return super.onOptionsItemSelected(item);
     }
@@ -151,6 +149,7 @@ public class EvaluateActivity extends AppCompatActivity {
         }
         while (cursor2.moveToNext()){
             tvProgress.setText(String.valueOf(cursor2.getDouble(0)));
+            progressBar.setProgress((int)cursor2.getDouble(0));
             edtNotes.setText(cursor2.getString(1));
         }
 
@@ -168,5 +167,24 @@ public class EvaluateActivity extends AppCompatActivity {
             }
             database.updateAverageAndNote(date, Double.parseDouble(tvProgress.getText().toString()), edtNotes.getText().toString());
         }
+    }
+
+    public double getSum() {
+        return sum;
+    }
+    public TextView getTvProgress() {
+        return tvProgress;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
+
+    public void setChanged(boolean changed) {
+        isChanged = changed;
     }
 }

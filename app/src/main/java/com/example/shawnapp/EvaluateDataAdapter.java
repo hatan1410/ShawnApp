@@ -39,6 +39,7 @@ public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapte
 
         holder.tvCateName.setText(cate_name);
         holder.tvPoint.setText(point +"%");
+        holder.seekBar.setProgress(point);
         holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -51,18 +52,19 @@ public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapte
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                evaluateActivity.setChanged(true);
                 for(int i=0; i<categories.size(); i++){
-                    evaluateActivity.sum += categories.get(i).getPoint();
+                    evaluateActivity.setSum(evaluateActivity.getSum() + categories.get(i).getPoint());
                 }
-                average = evaluateActivity.sum / categories.size();
+                average = evaluateActivity.getSum() / categories.size();
                 if (average == (int) average) {
-                    evaluateActivity.tvProgress.setText(String.valueOf((int) average));
+                    evaluateActivity.getTvProgress().setText(String.valueOf((int) average));
                 }
                 else {
-                    evaluateActivity.tvProgress.setText(String.valueOf(average));
+                    evaluateActivity.getTvProgress().setText(String.valueOf(average));
                 }
-                evaluateActivity.progressBar.setProgress((int) average);
-                evaluateActivity.sum = 0;
+                evaluateActivity.getProgressBar().setProgress((int) average);
+                evaluateActivity.setSum(0);
             }
         });
     }

@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private LocalDate selectedDate;
     private Toolbar toolbar;
     private Database database;
-    final int SWIPE_THRESHOLD = 100;
-    final int SWIPE_VELOCITY_THRESHOLD = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -53,11 +52,17 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         database = new Database(MainActivity.this);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setMonthView();
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void setMonthView()
     {
         monthYearText.setText(monthYearFromDate(selectedDate));
-        getSupportActionBar().setTitle(monthYearFromDate(selectedDate));
+        //getSupportActionBar().setTitle(monthYearFromDate(selectedDate));
         ArrayList<Date> daysInMonth = daysInMonthArray(selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
@@ -69,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private ArrayList<Date> daysInMonthArray(LocalDate date)
     {
         ArrayList<Date> daysInMonthArray = new ArrayList<>();
-        //ArrayList<Date> dateArrayList = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
         double average;
         String dateString;
@@ -77,19 +81,16 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue()-1;
-
         for(int i = 1; i <= 42; i++)
         {
             if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
             {
-                //daysInMonthArray.add("");
                 daysInMonthArray.add(new Date());
             }
             else
             {
                 dateString = String.valueOf(i - dayOfWeek) +" "+ monthYearFromDate(selectedDate);
                 average = database.showAverageInCalendar(dateString);
-                //daysInMonthArray.add(String.valueOf(i - dayOfWeek));
                daysInMonthArray.add(new Date(String.valueOf(i - dayOfWeek), average));
             }
         }
@@ -136,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.menu_today:
+                selectedDate = LocalDate.now();
+                setMonthView();
+                break;
             case R.id.menu_new_cate:
                 Intent intent = new Intent(MainActivity.this, NewCateActivity.class);
                 startActivity(intent);

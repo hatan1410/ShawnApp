@@ -15,20 +15,20 @@
         app:titleTextColor="@color/black"
         android:theme="@style/ThemeOverlay.AppCompat.Light" />
     <LinearLayout
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
 
         <ImageView
-            android:layout_width="5dp"
+            android:layout_width="30dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            app:srcCompat="@drawable/arrow_back"
-            android:onClick="previousMonthAction"/>
+            android:onClick="previousMonthAction"
+            app:srcCompat="@drawable/arrow_back" />
 
 
         <TextView
@@ -40,13 +40,14 @@
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"/>
+
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="30dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            app:srcCompat="@drawable/arrow_next"
-            android:onClick="nextMonthAction"/>
+            android:onClick="nextMonthAction"
+            app:srcCompat="@drawable/arrow_next" />
 
     </LinearLayout>
 
@@ -54,6 +55,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -126,7 +128,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>
 

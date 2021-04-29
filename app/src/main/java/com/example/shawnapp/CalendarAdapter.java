@@ -1,5 +1,7 @@
 package com.example.shawnapp;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shawnapp.Model.Date;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
@@ -34,10 +37,16 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     }
 
     //gan gia tri cho text view
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
     {
         holder.dayOfMonth.setText(daysOfMonth.get(position).getDate());
+        if(daysOfMonth.get(position).getDate() != null){
+            if(Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
+                holder.dayOfMonth.setTextColor(R.color.white);
+            }
+        }
         if(daysOfMonth.get(position).getDate() == null){
             holder.point.setText("");
         } else {
