@@ -77,7 +77,6 @@ public class EvaluateActivity extends AppCompatActivity {
                     onBackPressed();
                 }
                 else  {
-                   // DialogBack();
                     final Dialog dialog = new Dialog(EvaluateActivity.this);
                     dialog.setContentView(R.layout.dialog_save);
                     Button btnCancel = dialog.findViewById(R.id.btn_cancel);

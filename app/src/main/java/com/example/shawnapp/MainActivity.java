@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setMonthView();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void setMonthView()
     {
         monthYearText.setText(monthYearFromDate(selectedDate));
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             }
             else
             {
-                dateString = String.valueOf(i - dayOfWeek) +" "+ monthYearFromDate(selectedDate);
+                dateString = (i - dayOfWeek) +" "+ monthYearFromDate(selectedDate);
                 average = database.showAverageInCalendar(dateString);
                daysInMonthArray.add(new Date(String.valueOf(i - dayOfWeek), average));
             }
@@ -134,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -145,9 +145,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                 Intent intent = new Intent(MainActivity.this, NewCateActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.menu_chart:
-                Toast.makeText(this, "Chart", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.menu_chart:
+//                Toast.makeText(this, "Chart", Toast.LENGTH_SHORT).show();
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }

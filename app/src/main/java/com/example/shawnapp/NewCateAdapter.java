@@ -1,23 +1,29 @@
 package com.example.shawnapp;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class NewCateAdapter extends RecyclerView.Adapter<NewCateAdapter.MyViewHolder>  {
 
-    Context context;
+    NewCateActivity newCateActivity;
     List<String> list_cate;
 
-    public NewCateAdapter(Context context, List<String> list_cate) {
-        this.context = context;
+    public NewCateAdapter(NewCateActivity newCateActivity, List<String> list_cate) {
+        this.newCateActivity = newCateActivity;
         this.list_cate = list_cate;
     }
 
@@ -26,13 +32,20 @@ public class NewCateAdapter extends RecyclerView.Adapter<NewCateAdapter.MyViewHo
     public NewCateAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View cateItem;
         cateItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.cate_item, parent, false);
-        return new NewCateAdapter.MyViewHolder(cateItem);
+        return new MyViewHolder(cateItem);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NewCateAdapter.MyViewHolder holder, int position) {
-        String cate_name = list_cate.get(position);
+        final String cate_name = list_cate.get(position);
         holder.tvCate.setText(cate_name);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newCateActivity.dialogEditCate(cate_name);
+            }
+        });
     }
 
     @Override
@@ -40,10 +53,12 @@ public class NewCateAdapter extends RecyclerView.Adapter<NewCateAdapter.MyViewHo
         return list_cate == null ? 0 : list_cate.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
         TextView tvCate;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card_view);
             tvCate = itemView.findViewById(R.id.tv_cate);
         }
     }

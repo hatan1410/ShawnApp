@@ -42,11 +42,11 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
     {
         holder.dayOfMonth.setText(daysOfMonth.get(position).getDate());
-        if(daysOfMonth.get(position).getDate() != null){
-            if(Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
-                holder.dayOfMonth.setTextColor(R.color.white);
-            }
-        }
+//        if(daysOfMonth.get(position).getDate() != null){
+//            if(Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
+//                holder.dayOfMonth.setTextColor(R.color.white);
+//            }
+//        }
         if(daysOfMonth.get(position).getDate() == null){
             holder.point.setText("");
         } else {

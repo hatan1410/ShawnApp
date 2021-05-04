@@ -35,26 +35,26 @@ public class Database  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        String query1 = "CREATE TABLE " + TABLE_DATE +
+        String createTableDate = "CREATE TABLE " + TABLE_DATE +
                 " (" + COLUMN_DATE + " TEXT PRIMARY KEY, " +
                 COLUMN_NOTE + " TEXT, " +
                 COLUMN_AVERAGE + " REAL DEFAULT 0);";
-        String query2 = "CREATE TABLE " + TABLE_CATE +
+        String createTableCate = "CREATE TABLE " + TABLE_CATE +
                 " (" + COLUMN_CATE_NAME + " TEXT PRIMARY KEY);";
-        String query3 = "CREATE TABLE " + TABLE_DATE_CATE +
+        String createTableDateCate = "CREATE TABLE " + TABLE_DATE_CATE +
                 " (" + COLUMN_DATE + " TEXT, " +
                 COLUMN_CATE + " TEXT, " +
                 COLUMN_POINT + " INTEGER DEFAULT 0, PRIMARY KEY ("+COLUMN_DATE+", "+COLUMN_CATE+"));";
 
-        database.execSQL(query1);
-        database.execSQL(query2);
-        database.execSQL(query3);
-        String query4 = "INSERT INTO " + TABLE_CATE + " ( " + COLUMN_CATE_NAME + " ) " + " VALUES " +
+        database.execSQL(createTableDate);
+        database.execSQL(createTableCate);
+        database.execSQL(createTableDateCate);
+        String createInitCate = "INSERT INTO " + TABLE_CATE + " ( " + COLUMN_CATE_NAME + " ) " + " VALUES " +
                 "(\"Work\"), " +
                 "(\"Health\"), " +
                 "(\"Play\"), " +
                 "(\"Love\");";
-        database.execSQL(query4);
+        database.execSQL(createInitCate);
     }
 
     @Override
@@ -128,18 +128,27 @@ public class Database  extends SQLiteOpenHelper {
         }
             return cursor;
     }
-    public void addNewCategory(String category){
+    public long addNewCategory(String category){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_CATE_NAME, category);
-        long result = database.insert(TABLE_CATE, null, cv);
-        if(result == -1){
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(context, "Add successfully!", Toast.LENGTH_SHORT).show();
-        }
+        return database.insert(TABLE_CATE, null, cv);
     }
+
+    public long updateCategory(String oldCategory, String newCategory){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_CATE_NAME, newCategory);
+        return database.update(TABLE_CATE, cv, COLUMN_CATE_NAME + " = '" + oldCategory + "'", null);
+    }
+
+    public void deleteCategory(String category){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_CATE, COLUMN_CATE_NAME + " = '" + category + "'", null);
+    }
+
     public Cursor showDataCate(String date){
         SQLiteDatabase database = this.getReadableDatabase();
         String query = "SELECT " + COLUMN_CATE + ", "+COLUMN_POINT + " FROM " + TABLE_DATE_CATE + " WHERE " + COLUMN_DATE + " = '" + date + "';";
@@ -166,9 +175,9 @@ public class Database  extends SQLiteOpenHelper {
         cv.put(COLUMN_POINT, point);
         long result = database.update(TABLE_DATE_CATE, cv, COLUMN_DATE +" = '"+ date + "' and " + COLUMN_CATE + " = '" + cate + "'", null);
         if(result == -1){
-            Log.d("save_eva_point", "Failed");
+            Log.d("update_eva_point", "Failed");
         }else {
-            Log.d("save_eva_point", "Save successfully");
+            Log.d("update_eva_point", "Save successfully");
         }
     }
     public void updateAverageAndNote(String date, Double average, String notes){
@@ -179,9 +188,9 @@ public class Database  extends SQLiteOpenHelper {
         cv.put(COLUMN_AVERAGE, average);
         long result = database.update(TABLE_DATE, cv, COLUMN_DATE +" = '"+ date + "'", null);
         if(result == -1){
-            Log.d("save_ave_note", "Failed");
+            Log.d("update_ave_note", "Failed");
         }else {
-            Log.d("save_ave_note", "Save successfully");
+            Log.d("update_ave_note", "Save successfully");
         }
     }
 }
