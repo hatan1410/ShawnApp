@@ -58,6 +58,7 @@ public class EvaluateActivity extends AppCompatActivity {
         else {
             getDateInDB();
         }
+
         xuLyToolBar();
 
         //xu ly list categories trong recycle view
@@ -68,7 +69,7 @@ public class EvaluateActivity extends AppCompatActivity {
 
     private void xuLyToolBar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(date);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
