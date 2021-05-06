@@ -104,7 +104,7 @@ public class Database  extends SQLiteOpenHelper {
             Log.d("save_ave_note", "Save successfully");
         }
     }
-    public Double showAverageInCalendar(String date){
+    public double showAverageInCalendar(String date){
         double average = 0.0;
         SQLiteDatabase database = this.getReadableDatabase();
         String query = "SELECT " + COLUMN_AVERAGE + " FROM " + TABLE_DATE + " WHERE " + COLUMN_DATE + " = '" + date + "';";

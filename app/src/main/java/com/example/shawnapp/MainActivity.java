@@ -3,8 +3,10 @@ package com.example.shawnapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -25,13 +27,11 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
+public class MainActivity extends AppCompatActivity
 {
-    private TextView monthYearText;
-    private RecyclerView calendarRecyclerView;
-    private LocalDate selectedDate;
     private Toolbar toolbar;
-    private Database database;
+    ViewPager viewPager;
+    ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,91 +40,18 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setContentView(R.layout.activity_main);
         initWidgets();
         setSupportActionBar(toolbar);
-        selectedDate = LocalDate.now();
-        setMonthView();
     }
 
     private void initWidgets()
     {
-        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
-        monthYearText = findViewById(R.id.monthYearTV);
+        //monthYearText = findViewById(R.id.monthYearTV);
         toolbar = findViewById(R.id.toolBar_main);
-        database = new Database(MainActivity.this);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        setMonthView();
-    }
-
-    private void setMonthView()
-    {
-        monthYearText.setText(monthYearFromDate(selectedDate));
-        //getSupportActionBar().setTitle(monthYearFromDate(selectedDate));
-        ArrayList<Date> daysInMonth = daysInMonthArray(selectedDate);
-
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
-        calendarRecyclerView.setLayoutManager(layoutManager);
-        calendarRecyclerView.setAdapter(calendarAdapter);
-    }
-
-    private ArrayList<Date> daysInMonthArray(LocalDate date)
-    {
-        ArrayList<Date> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
-        double average;
-        String dateString;
-        int daysInMonth = yearMonth.lengthOfMonth();
-
-        LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue()-1;
-        for(int i = 1; i <= 42; i++)
-        {
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
-            {
-                daysInMonthArray.add(new Date());
-            }
-            else
-            {
-                dateString = (i - dayOfWeek) +" "+ monthYearFromDate(selectedDate);
-                average = database.showAverageInCalendar(dateString);
-               daysInMonthArray.add(new Date(String.valueOf(i - dayOfWeek), average));
-            }
-        }
-        return  daysInMonthArray;
-    }
-
-    private String monthYearFromDate(LocalDate date)
-    {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-        return date.format(formatter);
-    }
-
-    public void previousMonthAction(View view)
-    {
-        selectedDate = selectedDate.minusMonths(1);
-        setMonthView();
-    }
-
-    public void nextMonthAction(View view)
-    {
-        selectedDate = selectedDate.plusMonths(1);
-        setMonthView();
-    }
-
-    //xu ly su kien
-    @Override
-    public void onItemClick(int position, String dayText)
-    {
-        if(!dayText.equals(""))
-        {
-            String message = dayText + " " + monthYearFromDate(selectedDate);
-            Intent intent = new Intent(MainActivity.this, EvaluateActivity.class);
-            intent.putExtra("date", message);
-            startActivity(intent);
-        }
+        viewPager = findViewById(R.id.view_pager);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(50000);
+        setSupportActionBar(toolbar);
+        //getSupportActionBar().setTitle("");
     }
 
     @Override
@@ -138,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_today:
-                selectedDate = LocalDate.now();
-                setMonthView();
+                viewPager.setCurrentItem(50000);
                 break;
             case R.id.menu_new_cate:
                 Intent intent = new Intent(MainActivity.this, NewCateActivity.class);
