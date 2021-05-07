@@ -1,6 +1,7 @@
 package com.example.shawnapp.Model;
 
 public class Date {
+    private String yearMonth;
     private String date;
     private Double average;
     private String note;
@@ -8,15 +9,10 @@ public class Date {
     public Date() {
     }
 
-    public Date(String date, Double average) {
+    public Date(String date, Double average,String yearMonth) {
+        this.yearMonth = yearMonth;
         this.date = date;
         this.average = average;
-    }
-
-    public Date(String date, Double average, String note) {
-        this.date = date;
-        this.average = average;
-        this.note = note;
     }
 
     public String getDate() {
@@ -41,5 +37,13 @@ public class Date {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getYearMonth() {
+        return yearMonth;
+    }
+
+    public void setYearMonth(String yearMonth) {
+        this.yearMonth = yearMonth;
     }
 }

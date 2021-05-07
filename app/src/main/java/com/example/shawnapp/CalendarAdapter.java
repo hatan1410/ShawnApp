@@ -1,6 +1,7 @@
 package com.example.shawnapp;
 
 import android.annotation.SuppressLint;
+import android.icu.util.LocaleData;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.example.shawnapp.Model.Date;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
@@ -37,6 +39,9 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
         if(viewType == 1){
             view = inflater.inflate(R.layout.today_cell, parent, false);
         }
+        else if(viewType == 2){
+            view = inflater.inflate(R.layout.calendar_not_month_cell, parent, false);
+        }
         else {
             view = inflater.inflate(R.layout.calendar_cell, parent, false);
         }
@@ -60,12 +65,11 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 
     @Override
     public int getItemViewType(int position){
-        if(String.valueOf(yearMonth).equals(String.valueOf(YearMonth.from(LocalDate.now())))){
-            if(daysOfMonth.get(position).getDate() != null){
-                if(Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
-                    return 1;
-                }
-            }
+        if(daysOfMonth.get(position).getYearMonth().equals(monthYearFromDate(YearMonth.from(LocalDate.now()))) && Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
+            return 1;
+        }
+        if(!daysOfMonth.get(position).getYearMonth().equals(monthYearFromDate(yearMonth))){
+            return 2;
         }
         return 0;
     }
@@ -78,6 +82,12 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     public interface  OnItemListener
     {
         void onItemClick(int position, String dayText);
+    }
+
+    private String monthYearFromDate(YearMonth month)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        return month.format(formatter);
     }
 }
 
