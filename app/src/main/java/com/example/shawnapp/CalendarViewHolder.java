@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
-    public final TextView dayOfMonth, point;
+    public final TextView tvDayOfMonth, tvAverage;
     private final CalendarAdapter.OnItemListener onItemListener;
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener)
     {
         super(itemView);
-        dayOfMonth = itemView.findViewById(R.id.cellDayText);
-        point = itemView.findViewById(R.id.tv_point);
+        tvDayOfMonth = itemView.findViewById(R.id.cellDayText);
+        tvAverage = itemView.findViewById(R.id.tv_point);
         this.onItemListener = onItemListener;
         itemView.setOnClickListener(this);
     }
@@ -22,6 +22,6 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View view)
     {
-        onItemListener.onItemClick(getAdapterPosition(), (String) dayOfMonth.getText());
+        onItemListener.onItemClick(getAdapterPosition(), (String) tvDayOfMonth.getText());
     }
 }

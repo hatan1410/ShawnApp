@@ -1,13 +1,13 @@
 package com.example.shawnapp;
 
 import android.annotation.SuppressLint;
-import android.icu.util.LocaleData;
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shawnapp.Model.Date;
@@ -19,12 +19,13 @@ import java.util.ArrayList;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 {
+    Context context;
     private final ArrayList<Date> daysOfMonth;
     private final OnItemListener onItemListener;
     private final YearMonth yearMonth;
 
-    public CalendarAdapter(ArrayList<Date> daysOfMonth, OnItemListener onItemListener, YearMonth yearMonth)
-    {
+    public CalendarAdapter(Context context, ArrayList<Date> daysOfMonth, OnItemListener onItemListener, YearMonth yearMonth) {
+        this.context = context;
         this.daysOfMonth = daysOfMonth;
         this.onItemListener = onItemListener;
         this.yearMonth = yearMonth;
@@ -55,11 +56,34 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
     {
-        holder.dayOfMonth.setText(daysOfMonth.get(position).getDate());
-        if(daysOfMonth.get(position).getDate() == null){
-            holder.point.setText("");
+        Date date = daysOfMonth.get(position);
+        double average = date.getAverage();
+        holder.tvDayOfMonth.setText(date.getDate());
+        if(date.getDate() == null){
+            holder.tvAverage.setText("");
         } else {
-            holder.point.setText(String.valueOf(daysOfMonth.get(position).getAverage()));
+            if (average == (int) average) {
+                holder.tvAverage.setText(String.valueOf((int) average));
+            }
+            else {
+                holder.tvAverage.setText(String.valueOf(average));
+            }
+        }
+
+        if(average < 20){
+            holder.tvAverage.setTextColor(ContextCompat.getColor(context, R.color.red));
+        }
+        else if(average >= 20 && average < 40){
+            holder.tvAverage.setTextColor(ContextCompat.getColor(context, R.color.orange));
+        }
+        else if(average >= 40 && average < 60){
+            holder.tvAverage.setTextColor(ContextCompat.getColor(context, R.color.yellow));
+        }
+        else if(average >= 60 && average < 80){
+            holder.tvAverage.setTextColor(ContextCompat.getColor(context, R.color.green2));
+        }
+        else{
+            holder.tvAverage.setTextColor(ContextCompat.getColor(context, R.color.blue2));
         }
     }
 

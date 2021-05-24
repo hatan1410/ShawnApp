@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener {
 
     private RecyclerView calendarRecyclerView;
-    private TextView tvDate;
     private LocalDate selectedDate;
     private ArrayList<Date> daysInMonth;
     private Database database;
@@ -34,9 +33,10 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendarRecyclerView = myView.findViewById(R.id.calendarRecyclerView);
-        tvDate = myView.findViewById(R.id.tv_date);
         database = new Database(getActivity());
-        selectedDate = LocalDate.now().minusMonths(50001 - getArguments().getInt("date"));
+        if (getArguments() != null) {
+            selectedDate = LocalDate.now().minusMonths(50001 - getArguments().getInt("date"));
+        }
         setMonthView();
 
         return myView;
@@ -49,9 +49,8 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     }
     private void setMonthView()
     {
-        tvDate.setText(monthYearFromDate(selectedDate));
         daysInMonth = daysInMonthArray(selectedDate);
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this, YearMonth.from(selectedDate));
+        CalendarAdapter calendarAdapter = new CalendarAdapter(getContext(), daysInMonth, this, YearMonth.from(selectedDate));
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);

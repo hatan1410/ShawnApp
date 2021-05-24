@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     ViewPager viewPager;
     ViewPagerAdapter adapter;
+    TextView tvCurrentMonthYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,11 +49,30 @@ public class MainActivity extends AppCompatActivity
         //monthYearText = findViewById(R.id.monthYearTV);
         toolbar = findViewById(R.id.toolBar_main);
         viewPager = findViewById(R.id.view_pager);
+        tvCurrentMonthYear = findViewById(R.id.tv_current_month_year);
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("");
+        tvCurrentMonthYear.setText(monthYearFromDate(LocalDate.now()));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tvCurrentMonthYear.setText(monthYearFromDate(LocalDate.now().minusMonths(50000 - position)));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -76,5 +97,11 @@ public class MainActivity extends AppCompatActivity
 //                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String monthYearFromDate(LocalDate date)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        return date.format(formatter);
     }
 }
