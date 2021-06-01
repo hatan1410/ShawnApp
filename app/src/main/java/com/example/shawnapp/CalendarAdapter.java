@@ -38,7 +38,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
         if(viewType == 1){
-            view = inflater.inflate(R.layout.today_cell, parent, false);
+            view = inflater.inflate(R.layout.calendar_today_cell, parent, false);
         }
         else if(viewType == 2){
             view = inflater.inflate(R.layout.calendar_not_month_cell, parent, false);
@@ -59,15 +59,11 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
         Date date = daysOfMonth.get(position);
         double average = date.getAverage();
         holder.tvDayOfMonth.setText(date.getDate());
-        if(date.getDate() == null){
-            holder.tvAverage.setText("");
-        } else {
-            if (average == (int) average) {
-                holder.tvAverage.setText(String.valueOf((int) average));
-            }
-            else {
-                holder.tvAverage.setText(String.valueOf(average));
-            }
+        if (average == (int) average) {
+            holder.tvAverage.setText(String.valueOf((int) average));
+        }
+        else {
+            holder.tvAverage.setText(String.valueOf(average));
         }
 
         if(average < 20){
@@ -89,7 +85,8 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 
     @Override
     public int getItemViewType(int position){
-        if(daysOfMonth.get(position).getYearMonth().equals(monthYearFromDate(YearMonth.from(LocalDate.now()))) && Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
+        if(daysOfMonth.get(position).getYearMonth().equals(monthYearFromDate(YearMonth.from(LocalDate.now())))
+                && Integer.parseInt(daysOfMonth.get(position).getDate()) == LocalDate.now().getDayOfMonth()){
             return 1;
         }
         if(!daysOfMonth.get(position).getYearMonth().equals(monthYearFromDate(yearMonth))){

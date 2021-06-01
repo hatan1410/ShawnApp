@@ -1,5 +1,6 @@
 package com.example.shawnapp;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapte
 
     private final EvaluateActivity evaluateActivity;
     private final List<Category> categories;
-    public double average;
+    private double average;
 
     public EvaluateDataAdapter(EvaluateActivity evaluateActivity, List<Category> categories) {
         this.evaluateActivity = evaluateActivity;
@@ -32,6 +33,7 @@ public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapte
         return new MyViewHolder(categoryView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         String cate_name = categories.get(position).getCateName();

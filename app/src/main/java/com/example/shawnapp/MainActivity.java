@@ -30,10 +30,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
-    private Toolbar toolbar;
-    ViewPager viewPager;
-    ViewPagerAdapter adapter;
-    TextView tvCurrentMonthYear;
+    private ViewPager viewPager;
+    private TextView tvCurrentMonthYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,20 +39,20 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
-        setSupportActionBar(toolbar);
     }
 
     private void initWidgets()
     {
         //monthYearText = findViewById(R.id.monthYearTV);
-        toolbar = findViewById(R.id.toolBar_main);
+        Toolbar toolbar = findViewById(R.id.toolBar_main);
         viewPager = findViewById(R.id.view_pager);
         tvCurrentMonthYear = findViewById(R.id.tv_current_month_year);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+        setSupportActionBar(toolbar);
         tvCurrentMonthYear.setText(monthYearFromDate(LocalDate.now()));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

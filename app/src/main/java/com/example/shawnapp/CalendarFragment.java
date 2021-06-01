@@ -72,9 +72,8 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
             String month;
             if(i <= dayOfWeek)
             {
-                int daysInLastMonth = yearMonth.minusMonths(1).lengthOfMonth();
                 month = monthYearFromDate(selectedDate.minusMonths(1));
-                day = daysInLastMonth - (dayOfWeek -i );
+                day = yearMonth.minusMonths(1).lengthOfMonth() - (dayOfWeek -i );
             }
             else if(i > daysInMonth + dayOfWeek){
                 day = i - (daysInMonth + dayOfWeek);

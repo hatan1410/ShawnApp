@@ -18,8 +18,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         CalendarFragment fragment = new CalendarFragment();
         Bundle bundle = new Bundle();
-        position = position+1;
-        bundle.putInt("date",position);
+        bundle.putInt("date",position+1);
         fragment.setArguments(bundle);
         return fragment;
     }
