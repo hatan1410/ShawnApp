@@ -48,45 +48,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--        <LinearLayout
-                        android:id="@+id/linearLayout2"
-                        android:layout_width="250dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="10"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="15dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="5dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/arrow_back" />
-
-                        <TextView
-                            android:id="@+id/tv_date"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="8"
-                            android:text="Date"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="0dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/arrow_next" />
-
-                    </LinearLayout>  -->
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycer_view"
                 android:layout_width="match_parent"
@@ -140,7 +101,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tv_dao_ly"
+                android:id="@+id/tv_quote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ra xã hội nàm ăn bươn trải, liều thì ăn nhiều không liều thì ăn ít. Xã hội lày chỉ có làm chịu khó cần cù thì bù xiêng năng, chỉ có làm thì mới có ăn, những cái loại không nàm mà đòi có ăn thì ăn đầu b***, ăn cứt."
@@ -151,24 +112,25 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"/>
             <TextView
-                android:id="@+id/tv_thay_giao"
+                android:id="@+id/tv_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="- Huấn hoa hồng -"
                 android:textAlignment="center"
                 android:textSize="18dp"
                 android:layout_marginTop="10dp"/>
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edt_notes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="Notes"
-                android:inputType="textMultiLine" />
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="15dp"
+                android:background="@drawable/back_satatus_pending"
+                android:backgroundTint="#C9E8F8FF"
+                android:gravity="top"
+                android:hint="Note"
+                android:inputType="textMultiLine"
+                android:padding="8dp" />
         </LinearLayout>
     </ScrollView>
 

@@ -29,7 +29,7 @@ public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapte
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View categoryView;
-        categoryView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category, parent, false);
+        categoryView = LayoutInflater.from(parent.getContext()).inflate(R.layout.evaluate_item, parent, false);
         return new MyViewHolder(categoryView);
     }
 
@@ -59,6 +59,7 @@ public class EvaluateDataAdapter extends RecyclerView.Adapter<EvaluateDataAdapte
                     evaluateActivity.setSum(evaluateActivity.getSum() + categories.get(i).getPoint());
                 }
                 average = evaluateActivity.getSum() / categories.size();
+                average = Math.round(average*100.0)/100.0;
                 if (average == (int) average) {
                     evaluateActivity.getTvProgress().setText(String.valueOf((int) average));
                 }

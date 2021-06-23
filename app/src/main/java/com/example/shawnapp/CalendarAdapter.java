@@ -1,4 +1,4 @@
-package com.example.shawnapp;
+ package com.example.shawnapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -59,12 +59,8 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
         Date date = daysOfMonth.get(position);
         double average = date.getAverage();
         holder.tvDayOfMonth.setText(date.getDate());
-        if (average == (int) average) {
-            holder.tvAverage.setText(String.valueOf((int) average));
-        }
-        else {
-            holder.tvAverage.setText(String.valueOf(average));
-        }
+        holder.tvAverage.setText(String.valueOf((int) average));
+
 
         if(average < 20){
             holder.tvAverage.setTextColor(ContextCompat.getColor(context, R.color.red));

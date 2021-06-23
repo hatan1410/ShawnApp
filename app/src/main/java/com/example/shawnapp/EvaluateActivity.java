@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 import com.example.shawnapp.Model.Category;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class EvaluateActivity extends AppCompatActivity {
 
@@ -32,8 +32,9 @@ public class EvaluateActivity extends AppCompatActivity {
     private final ArrayList<Category> categories = new ArrayList<>();
     private String date;
     private double sum = 0;
-    private TextView tvProgress;
+    private TextView tvProgress, tvDate, tvQuote, tvAuthor;
     private ProgressBar progressBar;
+    RecyclerView recyclerView;
     private Database database;
     private boolean isChanged = false;
     @Override
@@ -41,12 +42,8 @@ public class EvaluateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluate);
 
-        TextView tvDate = findViewById(R.id.tv_date);
-        edtNotes = findViewById(R.id.edt_notes);
-        RecyclerView recyclerView = findViewById(R.id.recycer_view);
-        toolbar = findViewById(R.id.toolBar);
-        tvProgress = findViewById(R.id.tv_progress);
-        progressBar = findViewById(R.id.progressBar);
+        initView();
+        randomQuote();
 
         database = new Database(EvaluateActivity.this);
         Intent intent = getIntent();
@@ -67,6 +64,26 @@ public class EvaluateActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    private void initView() {
+        tvDate = findViewById(R.id.tv_date);
+        edtNotes = findViewById(R.id.edt_notes);
+        recyclerView = findViewById(R.id.recycer_view);
+        toolbar = findViewById(R.id.toolBar);
+        tvProgress = findViewById(R.id.tv_progress);
+        progressBar = findViewById(R.id.progressBar);
+        tvQuote = findViewById(R.id.tv_quote);
+        tvAuthor = findViewById(R.id.tv_author);
+    }
+
+    private void randomQuote() {
+        ArrayList<Quote> quotesList = Quote.getListQuote();
+        Random random = new Random();
+        int randomNumber = random.nextInt(quotesList.size());
+        Quote quote = quotesList.get(randomNumber);
+        tvQuote.setText(quote.getQuote());
+        tvAuthor.setText(quote.getAuthor());
+    }
+
     private void xuLyToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -74,55 +91,13 @@ public class EvaluateActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isChanged){
-                    onBackPressed();
+                if(progressBar.getProgress() != 0){
+                    saveData();
                 }
-                else  {
-                    final Dialog dialog = new Dialog(EvaluateActivity.this);
-                    dialog.setContentView(R.layout.dialog_save);
-                    Button btnCancel = dialog.findViewById(R.id.btn_cancel);
-                    Button btnDiscard = dialog.findViewById(R.id.btn_discard);
-                    Button btnSave = dialog.findViewById(R.id.btn_save);
-                    dialog.show();
-                    btnSave.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            saveData();
-                            dialog.dismiss();
-                            onBackPressed();
-                        }
-                    });
-                    btnDiscard.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                            onBackPressed();
-                        }
-                    });
-                    btnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.cancel();
-                        }
-                    });
-                }
+                onBackPressed();
             }
         });
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_evaluate, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-//Item save tren menu
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        isChanged = false;
-        saveData();
-        return super.onOptionsItemSelected(item);
     }
 
     private void getCate() {

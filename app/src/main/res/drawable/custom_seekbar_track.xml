@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="center_vertical">
         <shape android:shape="rectangle">
-            <solid android:color="#E0E0DE"/>
-            <size android:height="12dp"/>
+            <solid android:color="#DCF1FC"/>
+            <size android:height="8dp"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>
@@ -15,8 +15,8 @@
                     android:drawable="@android:color/transparent"/>
                 <item>
                     <shape  android:shape="rectangle">
-                        <solid android:color="#00DD24"/>
-                        <size android:height="12dp"/>
+                        <solid android:color="#2196F3"/>
+                        <size android:height="8dp"/>
                         <corners android:radius="10dp"/>
                     </shape>
                 </item>
