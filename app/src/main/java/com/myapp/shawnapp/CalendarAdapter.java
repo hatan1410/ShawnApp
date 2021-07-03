@@ -1,4 +1,4 @@
- package com.example.shawnapp;
+ package com.myapp.shawnapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shawnapp.Model.Date;
+import com.myapp.shawnapp.Model.Date;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

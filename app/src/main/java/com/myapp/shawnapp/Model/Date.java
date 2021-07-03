@@ -1,4 +1,4 @@
-package com.example.shawnapp.Model;
+package com.myapp.shawnapp.Model;
 
 public class Date {
     private String yearMonth;

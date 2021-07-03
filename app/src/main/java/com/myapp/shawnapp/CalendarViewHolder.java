@@ -1,4 +1,4 @@
-package com.example.shawnapp;
+package com.myapp.shawnapp;
 
 import android.view.View;
 import android.widget.TextView;

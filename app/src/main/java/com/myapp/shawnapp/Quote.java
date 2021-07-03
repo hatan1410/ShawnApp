@@ -1,10 +1,9 @@
-package com.example.shawnapp;
+package com.myapp.shawnapp;
 
 
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Quote {
     private final String quote;

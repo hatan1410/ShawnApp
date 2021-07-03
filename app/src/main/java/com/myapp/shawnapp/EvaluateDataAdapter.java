@@ -1,4 +1,4 @@
-package com.example.shawnapp;
+package com.myapp.shawnapp;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shawnapp.Model.Category;
+import com.myapp.shawnapp.Model.Category;
 
 import java.util.List;
 
